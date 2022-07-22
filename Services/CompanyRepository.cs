@@ -15,12 +15,25 @@ namespace DAPPERNET6.Services
 
         public async Task<IEnumerable<Company>> getCompanies()
         {
+            var query = "SELECT * FROM Company";
+
             using (var connection = _context.CreateConnection())
             {
-                var query = "SELECT * FROM Company";
                 var Companies = await connection.QueryAsync<Company>(query);
 
                 return Companies.ToList();
+            }
+        }
+
+        public async Task<Company> GetCompany(int id, string addr)
+        {
+            var query = "SELECT * FROM Company WHERE Id = @Id AND Address = @Addr";
+
+            using (var connection = _context.CreateConnection())
+            {
+                var Company = await connection.QuerySingleOrDefaultAsync<Company>(query, new { id , addr });
+
+                return Company;
             }
         }
     }

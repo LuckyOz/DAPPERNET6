@@ -15,7 +15,7 @@ namespace DAPPERNET6.Controllers
             _compRepo = compRepo;
         }
 
-        [HttpGet]
+        [HttpGet("browse")]
         public async Task<IActionResult> getCompanies()
         {
             try
@@ -24,6 +24,21 @@ namespace DAPPERNET6.Controllers
 
                 return Ok(companies);
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("detail")]
+        public async Task<IActionResult> getCompany(int id, string addr)
+        {
+            try
+            {
+                var company = await _compRepo.GetCompany(id, addr);
+
+                return Ok(company);
+            } 
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
